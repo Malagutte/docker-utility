@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  web-server:
+    image: tomcat:9.0.62-jre8-temurin
+    environment:
+      JPDA_ADDRESS: 8000
+      JPDA_TRANSPORT: dt_socket
+    mem_limit: 1GB
+    volumes:
+      #server config files
+      - C:\tomcat\conf\server.xml:/usr/local/tomcat/conf/server.xml
+      - C:\tomcat\conf\context.xml:/usr/local/tomcat/conf/context.xml
+      - C:\tomcat\conf\tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml      
+      #server deploy path
+      - C:\tomcat\webapps:/usr/local/tomcat/webapps
+      #server log and deploy log
+      - C:\tomcat\logs:/usr/local/tomcat/logs
+      
+      # Set CLASSPATH to get shared/libs
+      - C:\tomcat\bin\setenv.sh:/usr/local/tomcat/bin/setenv.sh
+      - C:\shared\libs:/shared/libs
+    ports:
+      - "8080:8080"
+      - "8000:8000"
+    #network config to get VPN connection
+    networks:
+      - my-network
+
+      
+networks:
+  my-network:
+    driver: bridge
