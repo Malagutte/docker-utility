@@ -5,6 +5,7 @@ services:
     environment:
       JPDA_ADDRESS: 8000
       JPDA_TRANSPORT: dt_socket
+      JAVA_OPTS: -agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n
     mem_limit: 1GB
     volumes:
       #server config files
