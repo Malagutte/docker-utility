@@ -1,0 +1,10 @@
+version: "3"
+services:
+  sonar_custom_jdk:
+    build: .
+    volumes:
+      - /sonar/data:/opt/sonarqube/data
+      - /sonar/extensions:/opt/sonarqube/extensions
+      - /sonar/logs:/opt/sonarqube/logs
+    ports:
+      - "9000:9000"
