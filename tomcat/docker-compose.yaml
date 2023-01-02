@@ -6,20 +6,20 @@ services:
       JPDA_ADDRESS: 8000
       JPDA_TRANSPORT: dt_socket
       JAVA_OPTS: -agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n
-    mem_limit: 1GB
+    # mem_limit: 2GB
     volumes:
       #server config files
       - C:\tomcat\conf\server.xml:/usr/local/tomcat/conf/server.xml
       - C:\tomcat\conf\context.xml:/usr/local/tomcat/conf/context.xml
       - C:\tomcat\conf\tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml      
       #server deploy path
-      - C:\tomcat\webapps:/usr/local/tomcat/webapps
+      - webapps_folder:/usr/local/tomcat/webapps
       #server log and deploy log
-      - C:\tomcat\logs:/usr/local/tomcat/logs
+      - logs_folder:/usr/local/tomcat/logs
       
       # Set CLASSPATH to get shared/libs
       - C:\tomcat\bin\setenv.sh:/usr/local/tomcat/bin/setenv.sh
-      - C:\shared\libs:/shared/libs
+      - shared_libs:/shared/libs
     ports:
       - "8080:8080"
       - "8000:8000"
@@ -31,3 +31,23 @@ services:
 networks:
   my-network:
     driver: bridge
+
+volumes:
+  shared_libs:
+    driver: local
+    driver_opts:
+      type: none
+      device: C:\shared\libs
+      o: bind
+  webapps_folder:
+    driver: local
+    driver_opts:
+      type: none
+      device: C:\tomcat\webapps
+      o: bind
+  logs_folder:
+    driver: local
+    driver_opts:
+      type: none
+      device: C:\tomcat\logs
+      o: bind
